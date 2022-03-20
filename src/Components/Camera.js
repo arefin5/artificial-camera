@@ -4,13 +4,14 @@ import { Container, Row, Col } from "react-bootstrap";
 import imageplaceholder from "../assets/image/imageplaceholder.png";
 import { FaCamera, FaFolder } from "react-icons/fa";
 import Webcam from "react-webcam";
-
+import {SweetAlert} from 'react-bootstrap-sweetalert';
 class Camera extends Component {
     constructor(props) {
     super(props);
     this.cameraRef=React.createRef();  
      this.state = {
-         capturedPhoto: imageplaceholder
+         capturedPhoto: imageplaceholder,
+         cameraError: false
      }    
 }
     onCapture = () =>{
@@ -21,6 +22,36 @@ class Camera extends Component {
             capturedPhoto: photoBase64
         });
     }
+    // download photo
+    onSave = () => {
+      let photoBase64String = this.state.capturedPhoto;  
+      const download=document.createElement("a");
+      download.href=photoBase64String;
+      download.download="image.png";
+      download.click();
+
+    }
+    // handle camera error
+    handleCameraError = () => {
+        this.setState({
+            cameraError: true
+        });
+    }
+    // handle erroralert
+    CameraErrorAlert=() =>{
+       
+        if(this.state.cameraError===true){
+   
+// 
+<SweetAlert warning title="Good job!" onConfirm={this.onCameraTryAgain} >
+</SweetAlert>
+
+        }
+    }
+    // reload page: 
+onCameraTryAgain=()=>{
+  window.location.href = "/";
+}
   render() {
     return (
       <Fragment>
@@ -33,6 +64,7 @@ class Camera extends Component {
                 audio={false}
                 screenshotFormat="image/jpeg"
                 ref={this.cameraRef}
+                onUserMediaError={this.handleCameraError}
               />
               <button onClick={this.onCapture} className="btn  btn-primary mt-3 btn-lg">
                 <FaCamera />
@@ -45,7 +77,7 @@ class Camera extends Component {
                 src={this.state.capturedPhoto}
                 alt="imageplaceholder"
               />
-              <button className="btn  btn-primary mt-3 btn-lg">
+              <button onClick={this.onSave} className="btn  btn-primary mt-3 btn-lg">
                 <FaFolder />
                 Save
               </button>
@@ -58,3 +90,4 @@ class Camera extends Component {
 }
 
 export default Camera;
+//   optics zone  
