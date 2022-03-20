@@ -1,0 +1,24 @@
+npm i react-web-cam react-bootstrap
+
+
+
+
+import React, { Component ,Fragment} from 'react';
+import {Container} from 'react-bootstrap'
+class Camera extends Component {
+    render() {
+        return (
+            <Fragment>
+                   <Container>
+                       <Row>
+                           <Col md={6} sm={4} lg={6}>
+                              
+                           </Col>
+                       </Row>
+                   </Container>
+            </Fragment>
+        );
+    }
+}
+
+export default Camera;
